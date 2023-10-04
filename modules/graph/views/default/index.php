@@ -10,6 +10,8 @@ use yii\grid\GridView;
 
 $this->title = 'Адреса банков';
 $this->params['breadcrumbs'][] = $this->title;
+/*echo  "<pre>";
+return var_dump(print_r($chartData['series']['data']));*/
 ?>
 <div class="banks-addresses-index">
 
@@ -26,14 +28,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php ActiveForm::end(); ?>
 
-    <?php
-    echo Highcharts::widget([
+    <?=
+    Highcharts::widget([
         'options' => [
-            'title' => ['text' => $chartData['title']],
-            'xAxis' => $chartData['xAxis'],
-            'series' => $chartData['series'],
-        ],
-    ]);
+            'title' => ['text' => 'За год'],
+            'xAxis' => [
+                'categories' => $chartData['series']['name'],
+                'title' => ['text' => 'Месяцы']
+            ],
+            'yAxis' => [
+                'title' => ['text' => 'Количество']
+            ],
+            'series' => [
+                [
+                    'name' => 'акции', 'data' => $chartData['series']['data']
+                ],
+            ]
+        ]
+    ])
     ?>
 </div>
 
