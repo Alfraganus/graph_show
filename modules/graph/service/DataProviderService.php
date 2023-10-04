@@ -2,23 +2,49 @@
 
 namespace app\modules\graph\service;
 
-class DataProviderService
+use app\modules\graph\interface\ChartInterface;
+
+class DataProviderService implements ChartInterface
 {
-    public static function transactionTypes(string $data)
+    public static function transactionTypes(string $data, &$typeBalance) : void
     {
         match ($data) {
-            'balance'   => $result['balance'] = ($result['balance'] ?? 0) + 1,
-            'buy'       => $result['buy']     = ($result['buy'] ?? 0) + 1,
-            'buy stop'  => $result['buystop'] = ($result['buystop'] ?? 0) + 1,
+            'balance' => $typeBalance['balance'] = ($typeBalance['balance'] ?? 0) + 1,
+            'buy' => $typeBalance['buy'] = ($typeBalance['buy'] ?? 0) + 1,
+            'buy stop' => $typeBalance['buystop'] = ($typeBalance['buystop'] ?? 0) + 1,
         };
-        return $result;
     }
 
-    public function numberReformatter($data)
+    public function profitStateProvider($profit, &$positive, &$negative) : void
     {
-        $result = number_format($data, 2);
-        $result = str_replace(',', '', $data);;
+        if ($profit > 0) {
+            $positive++;
+        } elseif ($profit < 0) {
+            $negative++;
+        }
+    }
 
-        return $result;
+    public function chartDataProvider(array $data) : array
+    {
+        $totalElements = count($data);
+        $interval = $totalElements / 20;
+
+        $firstOpenTime = null;
+        $lastOpenTime = null;
+        for ($i = 0; $i < $totalElements; $i += intval($interval)) {
+            if ($i % intval($interval) === 0) {
+                $chartData['series']['name'][] = $data[$i]['open_time'];
+                $chartData['series']['data'][] = $data[$i]['profit'];
+
+                if ($firstOpenTime === null) {
+                    $firstOpenTime = $data[$i]['open_time'];
+                }
+                $lastOpenTime = $data[$i]['open_time'];
+            }
+        }
+        $chartData['first'] = $firstOpenTime;
+        $chartData['last'] = $lastOpenTime;
+
+        return $chartData;
     }
 }

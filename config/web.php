@@ -42,15 +42,14 @@ $config = [
             ],
         ],
         'db' => $db,
-
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-
     ],
+    'defaultRoute' => '/graph/default',
     'modules' => [
         'graph' => [
             'class' => 'app\modules\graph\graph',
