@@ -51,10 +51,10 @@ class DefaultController extends Controller
                     $data = str_getcsv($line, ',');
                    $overall+= doubleval($data[13]);
                   $type = DataProviderService::transactionTypes($data[2]);
-                  if ($data[13]) {
+                  if ($data[13] && $data[2] != 'balance') {
                           $chart[] = [
                               'open_time'=>DateTime::createFromFormat("Y.m.d H:i:s", $data[1])->format('Y-m-d H:i'),
-                              'profit'=>intval($data[13]),
+                              'profit'=>floatval($data[13]),
                           ];
                   }
                 }
