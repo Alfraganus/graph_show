@@ -9,9 +9,9 @@ class DataProviderService implements ChartInterface
     public static function transactionTypes(string $data, &$typeBalance) : void
     {
         match ($data) {
-            'balance' => $typeBalance['balance'] = ($typeBalance['balance'] ?? 0) + 1,
-            'buy' => $typeBalance['buy'] = ($typeBalance['buy'] ?? 0) + 1,
-            'buy stop' => $typeBalance['buystop'] = ($typeBalance['buystop'] ?? 0) + 1,
+            'balance'   => $typeBalance['balance']   = ($typeBalance['balance'] ?? 0) + 1,
+            'buy'       => $typeBalance['buy']       = ($typeBalance['buy'] ?? 0) + 1,
+            'buy stop'  => $typeBalance['buystop']   = ($typeBalance['buystop'] ?? 0) + 1,
         };
     }
 
