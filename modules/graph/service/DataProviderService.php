@@ -32,7 +32,6 @@ class DataProviderService implements ChartInterface
         $firstOpenTime = null;
         $lastOpenTime = null;
         for ($i = 0; $i < $totalElements; $i += intval($interval)) {
-            if ($i % intval($interval) === 0) {
                 $chartData['series']['name'][] = $data[$i]['open_time'];
                 $chartData['series']['data'][] = $data[$i]['profit'];
 
@@ -40,7 +39,6 @@ class DataProviderService implements ChartInterface
                     $firstOpenTime = $data[$i]['open_time'];
                 }
                 $lastOpenTime = $data[$i]['open_time'];
-            }
         }
         $chartData['first'] = $firstOpenTime;
         $chartData['last'] = $lastOpenTime;
