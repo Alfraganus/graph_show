@@ -1,5 +1,6 @@
 <?php
 
+use miloschuman\highcharts\Highcharts;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -24,5 +25,15 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
     <?php ActiveForm::end(); ?>
+
+    <?php
+    echo Highcharts::widget([
+        'options' => [
+            'title' => ['text' => $chartData['title']],
+            'xAxis' => $chartData['xAxis'],
+            'series' => $chartData['series'],
+        ],
+    ]);
+    ?>
 </div>
 
