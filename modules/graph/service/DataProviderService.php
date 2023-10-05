@@ -6,7 +6,7 @@ use app\modules\graph\interface\ChartInterface;
 
 class DataProviderService implements ChartInterface
 {
-    public static function transactionTypes(string $data, &$typeBalance) : void
+    public  function transactionTypes(string $data, &$typeBalance) : void
     {
         match ($data) {
             'balance'   => $typeBalance['balance']   = ($typeBalance['balance'] ?? 0) + 1,
@@ -24,14 +24,14 @@ class DataProviderService implements ChartInterface
         }
     }
 
-    public function chartDataProvider(array $data) : array
+    public function chartDataProvider($data,$showInterval) : array
     {
         $totalElements = count($data);
         $interval = $totalElements / 20;
 
         $firstOpenTime = null;
         $lastOpenTime = null;
-        for ($i = 0; $i < $totalElements; $i += intval($interval)) {
+        for ($i = 0; $i < $totalElements; $i += $showInterval ? intval($interval) : 1) {
                 $chartData['series']['name'][] = $data[$i]['open_time'];
                 $chartData['series']['data'][] = $data[$i]['profit'];
 

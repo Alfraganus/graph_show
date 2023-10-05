@@ -17,11 +17,9 @@ if ($balanceType) {
                     }, [
                         'balance',
                         'buy',
-                        'buy stop'
                     ], [
                         $balanceType['balance'],
                         $balanceType['buy'],
-                        $balanceType['buystop'],
                     ]),
                 ]
             ]

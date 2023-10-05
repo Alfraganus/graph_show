@@ -9,8 +9,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="banks-addresses-index">
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'csvFile')->fileInput()->label('Пожалуйста, загрузите CSV-файл, чтобы создать график.') ?>
-
+    <?= $form->field($model, 'file')->fileInput()->label('Пожалуйста, загрузите файл CSV или HTML, чтобы создать график!') ?>
+    <?= $form->field($model, 'show_interval')->checkbox()->label('Показать 20 в равных интервалах') ?>
     <div class="form-group">
         <?= Html::submitButton('Загрузить', ['class' => 'btn btn-success']) ?>
     </div>
