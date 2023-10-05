@@ -18,7 +18,9 @@
         "yiisoft/yii2": "~2.0.45",
         "yiisoft/yii2-bootstrap5": "~2.0.2",
         "yiisoft/yii2-symfonymailer": "~2.0.3",
-        "miloschuman/yii2-highcharts-widget": "^10.0"
+        "miloschuman/yii2-highcharts-widget": "^10.0",
+        "darkdrim/yii2-simplehtmldom": "^1.2",
+        "thesoftwarefanatics/php-html-parser": "^1.7"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

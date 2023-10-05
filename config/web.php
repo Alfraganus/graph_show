@@ -12,6 +12,9 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'htmlDom' => [
+            'class' => 'app\components\MyComponent',
+        ],
         'request' => [
             'baseUrl' => '',
             'cookieValidationKey' => 'fwefw3142',
