@@ -51,7 +51,6 @@ class DefaultController extends Controller
             $upload = UploadedFile::getInstance($model, 'file');
             if ($upload) {
                 $fileExtension = $upload->getExtension();
-
                 $chart = match ($fileExtension) {
                     self::FORMAT_HTML => $this->htmlParserService->execute($upload->tempName, $positive, $negative, $typeBalance),
                     self::FORMAT_CSV => $this->cvslParserService->execute($upload->tempName, $positive, $negative, $typeBalance),
