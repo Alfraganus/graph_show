@@ -44,8 +44,7 @@ class DefaultController extends Controller
         $model->addRule(['file'], 'file', ['extensions' => ['csv', 'html']]);
         $model->addRule(['show_interval'], 'boolean');
 
-        if ( $model->load(Yii::$app->request->post()) ) {
-            $chart = [];
+        if ($model->load(Yii::$app->request->post()) ) {
             $typeBalance = [];
             $negative = 0;
             $positive = 0;
