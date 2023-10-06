@@ -52,8 +52,8 @@ class DefaultController extends Controller
             if ($upload) {
                 $fileExtension = $upload->getExtension();
                 $chart = match ($fileExtension) {
-                    self::FORMAT_HTML => $this->htmlParserService->execute($upload->tempName, $positive, $negative, $typeBalance),
-                    self::FORMAT_CSV => $this->cvslParserService->execute($upload->tempName, $positive, $negative, $typeBalance),
+                    self::FORMAT_HTML => $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
+                    self::FORMAT_CSV => $this->cvslParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
                     default => null
                 };
                 Yii::$app->session->setFlash('success', 'Data has been imported successfully.');

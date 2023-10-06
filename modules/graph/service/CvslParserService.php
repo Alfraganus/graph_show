@@ -2,9 +2,10 @@
 
 namespace app\modules\graph\service;
 
+use app\modules\graph\interface\ParserInterface;
 use DateTime;
 
-class CvslParserService
+class CvslParserService implements ParserInterface
 {
     private DataProviderService $dataProvider;
 
@@ -13,7 +14,7 @@ class CvslParserService
         $this->dataProvider = $dataProvider;
     }
 
-    public function execute($filePath,&$positive, &$negative,&$typeBalance) : array
+    public function parse($filePath,&$positive, &$negative,&$typeBalance) : array
     {
         $fileContent = file_get_contents($filePath);
         $lines = explode("\n", $fileContent);

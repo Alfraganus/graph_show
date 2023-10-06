@@ -2,9 +2,10 @@
 
 namespace app\modules\graph\service;
 
+use app\modules\graph\interface\ParserInterface;
 use DateTime;
 
-class HtmlParserService
+class HtmlParserService implements ParserInterface
 {
 
     private DataProviderService $dataProvider;
@@ -14,7 +15,7 @@ class HtmlParserService
         $this->dataProvider = $dataProvider;
     }
 
-    public function execute($filePath,&$positive, &$negative,&$typeBalance) : array
+    public function parse($filePath,&$positive, &$negative,&$typeBalance) : array
     {
         $html = file_get_contents($filePath);
 
@@ -37,7 +38,6 @@ class HtmlParserService
         }
         $chart = [];
         foreach ($data as $dataSingle) {
-
             if (isset($dataSingle[1])) {
                 $parsedDate = DateTime::createFromFormat("Y.m.d H:i:s", $dataSingle[1]);
                 if ($parsedDate !== false && floatval(end($dataSingle))) {
