@@ -14,7 +14,7 @@ class CvslParserService implements ParserInterface
         $this->dataProvider = $dataProvider;
     }
 
-    public function parse($filePath,&$positive, &$negative,&$typeBalance) : array
+    public function parse($filePath,&$positive, &$negative,&$typeBalance, $parsingType='any') : array
     {
         $fileContent = file_get_contents($filePath);
         $lines = explode("\n", $fileContent);
@@ -32,7 +32,7 @@ class CvslParserService implements ParserInterface
             $data = str_getcsv($line);
             if (isset($data[1])) {
                 $parsedDate = DateTime::createFromFormat("Y.m.d H:i:s", $data[1]);
-                if ( $parsedDate !== false && $profit = $data[13]) {
+                if ( $parsedDate !== false && $profit = $data[5]) {
                     $this->dataProvider->transactionTypes($data[2],$typeBalance);
                     $this->dataProvider->profitStateProvider($profit, $positive, $negative);
                     $chart[] = [

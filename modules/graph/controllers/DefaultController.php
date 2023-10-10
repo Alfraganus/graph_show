@@ -40,26 +40,47 @@ class DefaultController extends Controller
 
     public function actionIndex()
     {
-        $model = new DynamicModel(['file','show_interval']);
+        $model = new DynamicModel(['file', 'show_interval']);
         $model->addRule(['file'], 'file', ['extensions' => ['csv', 'html']]);
         $model->addRule(['show_interval'], 'boolean');
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post())) {
             $typeBalance = [];
             $negative = 0;
             $positive = 0;
             $upload = UploadedFile::getInstance($model, 'file');
             if ($upload) {
                 $fileExtension = $upload->getExtension();
-                $chart = match ($fileExtension) {
-                    self::FORMAT_HTML => $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
+              /*  $chart = match ($fileExtension) {
+                    HtmlParserService::PARSE_TYPE_ANY => $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_ANY),
                     self::FORMAT_CSV => $this->cvslParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
                     default => null
-                };
+                };*/
+
+                $charts = [
+                    'any' => $this->dataProvider->chartDataProvider(
+                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_ANY),
+                        $model->show_interval
+                    ),
+                    'positive' => $this->dataProvider->chartDataProvider(
+                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_POSITIVE),
+                        $model->show_interval
+                    ),
+                    'transform' => $this->dataProvider->chartDataProvider(
+                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_POSTIVE_TRANSFORMATION),
+                        $model->show_interval
+                    ),
+                    'price' => $this->dataProvider->chartDataProvider(
+                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_PRICE),
+                        $model->show_interval
+                    ),
+                ];
+              /*  echo "<pre>";
+                return var_dump(print_r( $charts['price']));*/
                 Yii::$app->session->setFlash('success', 'Data has been imported successfully.');
                 return $this->render('index', [
                     'model' => $model,
-                    'chartData' => $this->dataProvider->chartDataProvider($chart, $model->show_interval),
+                    'chartData' => $charts,
                     'balanceType' => $typeBalance,
                     'profitState' => [
                         'positiveAmount' => $positive,
