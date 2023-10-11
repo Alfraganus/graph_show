@@ -20,7 +20,7 @@ class HtmlParserService/* implements ParserInterface*/
         $this->dataProvider = $dataProvider;
     }
 
-    public function parse($filePath, &$positive, &$negative, &$typeBalance, $type)
+    public function parse($filePath, &$positive, &$negative, &$typeBalance)
     {
         $html = file_get_contents($filePath);
 
@@ -42,58 +42,22 @@ class HtmlParserService/* implements ParserInterface*/
             $data[] = $rowData;
         }
         $chart = [];
+        $balance = 0;
         foreach ($data as $dataSingle) {
             if (isset($dataSingle[1])) {
                 $parsedDate = DateTime::createFromFormat("Y.m.d H:i:s", $dataSingle[1]);
                 if ($parsedDate !== false && floatval(end($dataSingle))) {
                     $this->dataProvider->transactionTypes($dataSingle[2], $typeBalance);
                     $this->dataProvider->profitStateProvider(end($dataSingle), $positive, $negative);
-
-                    switch ($type) {
-                        case self::PARSE_TYPE_ANY :
-                            $chart[] = $this->load($dataSingle, $parsedDate);
-                            break;
-                        case self::PARSE_TYPE_POSITIVE :
-                            if (end($dataSingle) > 0) {
-                                $chart[] = $this->load($dataSingle, $parsedDate);
-                                break;
-                            }
-                        case self::PARSE_TYPE_PRICE :
-                            if (isset($dataSingle[5])) {
-                                $chart[] = $this->loadByPrice($dataSingle, $parsedDate);
-                                break;
-                            }
-                        case self::PARSE_TYPE_POSTIVE_TRANSFORMATION :
-                            $chart[] = $this->load($dataSingle, $parsedDate,true);
-                            break;
-                    }
-
+                    $balance += floatval(str_replace([' ', ','], '', end($dataSingle)));
+                    $chart[] = [
+                        'open_time' => $parsedDate->format('Y-m-d H:i'),
+                        'profit' => $balance,
+                    ];
                 }
             }
         }
-
         return $chart;
-    }
-
-    private function load($dataSingle, $parsedDate,$convertToPosive = null)
-    {
-        $profitValue = end($dataSingle);
-        $profitValue = str_replace([' ', ','], '', $profitValue);
-        $profit = floatval($profitValue);
-
-        return [
-            'open_time' => $parsedDate->format('Y-m-d H:i'),
-            'profit' => $convertToPosive ? abs($profit): $profit,
-        ];
-    }
-
-    private function loadByPrice($dataSingle, $parsedDate)
-    {
-        $profitValue = str_replace([' ', ','], '', $dataSingle[5]);
-        return [
-            'open_time' => $parsedDate->format('Y-m-d H:i'),
-            'profit' => floatval($profitValue),
-        ];
     }
 
 }

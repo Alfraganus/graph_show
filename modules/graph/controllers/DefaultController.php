@@ -59,21 +59,10 @@ class DefaultController extends Controller
 
                 $charts = [
                     'any' => $this->dataProvider->chartDataProvider(
-                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_ANY),
+                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
                         $model->show_interval
                     ),
-                    'positive' => $this->dataProvider->chartDataProvider(
-                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_POSITIVE),
-                        $model->show_interval
-                    ),
-                    'transform' => $this->dataProvider->chartDataProvider(
-                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_POSTIVE_TRANSFORMATION),
-                        $model->show_interval
-                    ),
-                    'price' => $this->dataProvider->chartDataProvider(
-                        $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_PRICE),
-                        $model->show_interval
-                    ),
+
                 ];
               /*  echo "<pre>";
                 return var_dump(print_r( $charts['price']));*/
