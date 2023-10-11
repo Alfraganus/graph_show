@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="banks-addresses-index">
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'file')->fileInput()->label('Пожалуйста, загрузите файл CSV или HTML, чтобы создать график!') ?>
+    <?= $form->field($model, 'file')->fileInput()->label('Пожалуйста, загрузите файл HTML, чтобы создать график!') ?>
     <?= $form->field($model, 'show_interval')->checkbox()->label('Показать 20 в равных интервалах') ?>
     <div class="form-group">
         <?= Html::submitButton('Загрузить', ['class' => 'btn btn-success']) ?>
@@ -20,13 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#home">Parsing by each value</a>
+                <a class="nav-link active" data-bs-toggle="tab" href="#home">Парсер  по каждому значению</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#menu1">Parsing by only positive value</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#menu1">Парсер только по положительному значению</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#menu2">Parsing by converting negative value to positive</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#menu2">Парсер путем преобразования отрицательного значения в положительное</a>
             </li>
          <!--   <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#menu3">Parsing by price column</a>

@@ -14,7 +14,7 @@ class CvslParserService implements ParserInterface
         $this->dataProvider = $dataProvider;
     }
 
-    public function parse($filePath,&$positive, &$negative,&$typeBalance, $parsingType='any') : array
+    public function parse($filePath,&$positive, &$negative,&$typeBalance, $parsingType) : array
     {
         $fileContent = file_get_contents($filePath);
         $lines = explode("\n", $fileContent);
