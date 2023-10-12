@@ -49,24 +49,16 @@ class DefaultController extends Controller
             $negative = 0;
             $positive = 0;
             $upload = UploadedFile::getInstance($model, 'file');
-            if ($upload) {
-                $fileExtension = $upload->getExtension();
-              /*  $chart = match ($fileExtension) {
-                    HtmlParserService::PARSE_TYPE_ANY => $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance, HtmlParserService::PARSE_TYPE_ANY),
-                    self::FORMAT_CSV => $this->cvslParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
-                    default => null
-                };*/
 
+            if ($upload) {
                 $charts = [
                     'any' => $this->dataProvider->chartDataProvider(
                         $this->htmlParserService->parse($upload->tempName, $positive, $negative, $typeBalance),
                         $model->show_interval
                     ),
-
                 ];
-              /*  echo "<pre>";
-                return var_dump(print_r( $charts['price']));*/
                 Yii::$app->session->setFlash('success', 'Data has been imported successfully.');
+
                 return $this->render('index', [
                     'model' => $model,
                     'chartData' => $charts,

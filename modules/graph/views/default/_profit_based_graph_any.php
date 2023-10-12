@@ -7,8 +7,8 @@ if ($chartData) {
         'options' => [
             'title' => [
                 'text' => sprintf('%s - %s',
-                    date('d/m/Y', strtotime($chartData['first'])),
-                    date('d/m/Y', strtotime($chartData['last'])))
+                    $chartData['first'],
+                    $chartData['last'])
             ],
             'xAxis' => [
                 'categories' => $chartData['series']['name'],

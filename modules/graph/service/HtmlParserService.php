@@ -45,13 +45,12 @@ class HtmlParserService/* implements ParserInterface*/
         $balance = 0;
         foreach ($data as $dataSingle) {
             if (isset($dataSingle[1])) {
-                $parsedDate = DateTime::createFromFormat("Y.m.d H:i:s", $dataSingle[1]);
-                if ($parsedDate !== false && floatval(end($dataSingle))) {
-                    $this->dataProvider->transactionTypes($dataSingle[2], $typeBalance);
-                    $this->dataProvider->profitStateProvider(end($dataSingle), $positive, $negative);
+                $parsedDateSemiFull = DateTime::createFromFormat("Y.m.d H:i", $dataSingle[1]);
+                $parsedDateFull = DateTime::createFromFormat("Y.m.d H:i:s", $dataSingle[1]);
+                if (($parsedDateSemiFull !== false || $parsedDateFull!== false) && floatval(end($dataSingle))) {
                     $balance += floatval(str_replace([' ', ','], '', end($dataSingle)));
                     $chart[] = [
-                        'open_time' => $parsedDate->format('Y-m-d H:i'),
+                        'open_time' => $parsedDateFull ? $parsedDateFull->format('Y-m-d H:i') : $parsedDateSemiFull->format('Y-m-d H:i'),
                         'profit' => $balance,
                     ];
                 }
